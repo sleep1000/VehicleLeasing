@@ -1,0 +1,25 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react-redux/recommended"
+    ],
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "react-redux"
+    ],
+    "rules": {
+        "linebreak-style": "off",
+        "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }]
+    }
+}

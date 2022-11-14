@@ -1,0 +1,43 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  
+  vehicleleasing:
+    container_name: vehicleleasing_container
+    image: localhost/vehicleleasing
+    depends_on:
+      - postgres
+    environment:
+      APPLY_MIGRATIONS: ${APPLY_MIGRATIONS}
+      DB_HOST: ${POSTGRES_HOST:-postgres}
+      DB_PORT: ${POSTGRES_PORT:-5432}
+      DB_USER: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    ports:
+      - "8080:80"
+      - "8443:443"
+    networks:
+      - postgres
+    volumes:
+      - ${PWD}/appsettings.json:/app/appsettings.json
+    restart: unless-stopped
+
+networks:
+  postgres:
+
+volumes:
+    postgres:
